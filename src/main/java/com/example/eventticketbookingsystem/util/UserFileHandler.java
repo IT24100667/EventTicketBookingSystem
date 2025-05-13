@@ -100,5 +100,18 @@ public class UserFileHandler {
         return null;
     }
 
+    public static Admin getAdminByUsername(String username) {
+        // Get the user associated with the given username
+        User user = getUserByUsername(username);
+
+        // Check if the user is an instance of Admin
+        if (user instanceof Admin) {
+            // Cast and return the Admin object
+            return (Admin) user;
+        }
+
+        // Return null if the user is not an Admin or doesn't exist
+        return null;
+    }
 
 }
