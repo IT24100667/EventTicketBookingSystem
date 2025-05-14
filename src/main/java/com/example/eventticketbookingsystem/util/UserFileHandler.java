@@ -5,12 +5,10 @@ import com.example.eventticketbookingsystem.model.Admin;
 import com.example.eventticketbookingsystem.model.Person;
 import com.example.eventticketbookingsystem.model.User;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UserFileHandler {
 
@@ -112,6 +110,49 @@ public class UserFileHandler {
 
         // Return null if the user is not an Admin or doesn't exist
         return null;
+    }
+
+    // Adds a new admin to the system if the username is not already taken
+    public static boolean addAdmin(String username, String password, String fullName,
+                                   String email, String phoneNumber) {
+        // Check if a user with the given username already exists in the system
+        if (getUserByUsername(username) != null) {
+            // Username is already taken; cannot add admin
+            return false;
+        }
+
+        // Generate a unique ID for the new admin using UUID
+        String id = UUID.randomUUID().toString();
+        // Create a new Admin object with the provided information
+        Admin admin = new Admin(id, username, password, fullName, email, phoneNumber);
+        // Add the new admin to the list of people
+
+        people.add(admin);
+        // Save the updated list of people to persistent storage
+        savePeople();
+        // Return true to indicate that the admin was successfully added
+        return true;
+    }
+
+    // Saves the list of people to a file specified by USER_FILE
+    private static void savePeople() {
+        try {
+            // Create a BufferedWriter to write to the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE));
+            // Iterate through each person in the list
+            for (Person person : people) {
+                // Convert the person object to a file-friendly string and write it to the file
+                writer.write(person.toFileString());
+                writer.newLine(); // Write a newline after each person
+            }
+            // Close the writer to finalize the file and free resources
+            writer.close();
+            // Print a confirmation message with the number of people saved
+            System.out.println("Saved " + people.size() + " people to file");
+        } catch (IOException e) {
+            // Handle any I/O errors that occur during writing
+            System.out.println("Error saving people: " + e.getMessage());
+        }
     }
 
 }
