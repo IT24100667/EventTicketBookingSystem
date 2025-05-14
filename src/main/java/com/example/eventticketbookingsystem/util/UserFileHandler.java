@@ -120,13 +120,11 @@ public class UserFileHandler {
             // Username is already taken; cannot add admin
             return false;
         }
-
         // Generate a unique ID for the new admin using UUID
         String id = UUID.randomUUID().toString();
         // Create a new Admin object with the provided information
         Admin admin = new Admin(id, username, password, fullName, email, phoneNumber);
         // Add the new admin to the list of people
-
         people.add(admin);
         // Save the updated list of people to persistent storage
         savePeople();
@@ -154,5 +152,6 @@ public class UserFileHandler {
             System.out.println("Error saving people: " + e.getMessage());
         }
     }
+
 
 }
