@@ -13,6 +13,8 @@ public abstract class Event {
     private int capacity;
     private int bookedSeats;
     private String eventType;
+
+    //unique for Concert
     private int discountThreshold; // no. of tickets needed for discount eligibility
     private int discountPercentage;
 
@@ -30,6 +32,7 @@ public abstract class Event {
         this.discountThreshold = 0;
         this.discountPercentage = 0;
     }
+
 
 
     // the child class can have unique implementations of calculating price
