@@ -2,7 +2,7 @@ package com.example.eventticketbookingsystem.model;
 
 import java.util.Date;
 
-public class Event {
+public abstract class Event {
 
     private String id;
     private String name;
@@ -30,6 +30,10 @@ public class Event {
         this.discountThreshold = 0;
         this.discountPercentage = 0;
     }
+
+
+    // the child class can have unique implementations of calculating price
+    public abstract double calculateTicketPrice();
 
 
     // method to generate IDs
