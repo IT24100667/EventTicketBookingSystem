@@ -17,7 +17,7 @@ public class Sports extends Event {
 
     @Override
     public double calculateTicketPrice() {
-        return 0;
+        return getPrice();
     }
 
     public String getSportType() {

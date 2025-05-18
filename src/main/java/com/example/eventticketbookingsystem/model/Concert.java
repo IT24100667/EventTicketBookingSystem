@@ -2,7 +2,7 @@ package com.example.eventticketbookingsystem.model;
 
 import java.util.Date;
 
-public class Concert extends Event{
+public class Concert extends Event implements Discountable {
 
     private String artist;
 
@@ -15,9 +15,13 @@ public class Concert extends Event{
     // abstract method implemented
     @Override
     public double calculateTicketPrice() {
-        return 0;
+        return getPrice();
     }
 
+    @Override
+    public double getDiscount(int ticketQuantity) {
+        return super.getDiscount(ticketQuantity);
+    }
 
     public String getArtist() {
         return artist;
