@@ -104,8 +104,22 @@ public class EventFileHandler {
 
         return events;
 
-
     }
 
+
+
+    public Event getEventById(String id){
+
+        List<Event> events = getAllEvents(); // got all events stored in file
+
+        for (Event event : events) {
+            if (event.getId().equals(id)) {
+                return event;
+            }
+        }
+        // if we reach here it means no event found so null returned
+        return null;
+
+    }
 
 }
