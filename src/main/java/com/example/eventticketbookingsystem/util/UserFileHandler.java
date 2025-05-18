@@ -25,7 +25,66 @@ public class UserFileHandler {
         private static List<Person> people = new ArrayList<>();
 
 
-     //Load people from file
+        static {
+        // Create directory if it doesn't exist
+        File dataDir = new File(DATA_DIRECTORY);
+        if (!dataDir.exists()) {
+            boolean created = dataDir.mkdirs();
+            System.out.println("Created data directory: " + dataDir.getAbsolutePath() +
+                    " (Success: " + created + ")");
+        } else {
+            System.out.println("Using existing data directory: " + dataDir.getAbsolutePath());
+        }
+
+        System.out.println("User file will be stored at: " + new File(USER_FILE).getAbsolutePath());
+        loadPeople();
+        }
+
+
+
+        // Add a new regular user
+        public static boolean addUser(String username, String password, String fullName,
+                                  String email, String phoneNumber) {
+        // Check if username already exists
+        if (getUserByUsername(username) != null) {
+            return false;
+        }
+
+        String id = UUID.randomUUID().toString();
+        User user = new User(id, username, password, fullName, email, phoneNumber);
+
+        people.add(user);
+        savePeople();
+        return true;
+        }
+
+
+
+     // Get person by ID
+     public static Person getPersonById(String id) {
+        for (Person person : people) {
+            if (person.getId().equals(id)) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+
+     // Get user by ID (returns only regular User objects, not Admin)
+     public static User getUserById(String id) {
+        Person person = getPersonById(id);
+        if (person instanceof User && !(person instanceof Admin)) {
+            return (User)person;
+        }
+        return null;
+     }
+
+
+
+
+
+    //Load people from file
 
     private static void loadPeople() {
         people.clear();
@@ -61,26 +120,10 @@ public class UserFileHandler {
 
             System.out.println("Loaded " + people.size() + " people from file");
 
-        } catch (IOException e) {
+            } catch (IOException e) {
             System.out.println("Error loading people: " + e.getMessage());
-        }
-    }
-
-        static {
-            // Create directory if it doesn't exist
-            File dataDir = new File(DATA_DIRECTORY);
-            if (!dataDir.exists()) {
-                boolean created = dataDir.mkdirs();
-                System.out.println("Created data directory: " + dataDir.getAbsolutePath() +
-                        " (Success: " + created + ")");
-            } else {
-                System.out.println("Using existing data directory: " + dataDir.getAbsolutePath());
             }
-
-            System.out.println("User file will be stored at: " + new File(USER_FILE).getAbsolutePath());
-
-            loadPeople();
-        }
+      }
 
 
 
@@ -111,6 +154,77 @@ public class UserFileHandler {
         // Return null if the user is not an Admin or doesn't exist
         return null;
     }
+
+
+     //Get all regular users
+     public static List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+        for (Person person : people) {
+            if (person instanceof User && !(person instanceof Admin)) {
+                users.add((User)person);
+            }
+        }
+        return users;
+      }
+
+
+     // Update user information (works for both User and Admin)
+      public static boolean updateUser(String id, String username, String password,
+                                     String fullName, String email, String phoneNumber) {
+        Person personToUpdate = getPersonById(id);
+        if (personToUpdate == null || !(personToUpdate instanceof User)) {
+            return false;
+        }
+
+        User user = (User)personToUpdate;
+
+        // Check if new username conflicts with another user
+        User existingUser = getUserByUsername(username);
+        if (existingUser != null && !existingUser.getId().equals(id)) {
+            return false; // Username taken by another user
+        }
+
+        // Update user information
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+
+        savePeople();
+        return true;
+    }
+
+
+     //Delete a person by ID (works for both User and Admin)
+     public static boolean deletePerson(String id) {
+        for (int i = 0; i < people.size(); i++) {
+            if (people.get(i).getId().equals(id)) {
+                people.remove(i);
+                savePeople();
+                return true;
+            }
+        }
+        return false;
+     }
+
+
+     //Authenticate user (works for both User and Admin)
+    public static User authenticateUser(String username, String password) {
+        for (Person person : people) {
+            if (person instanceof User) {
+                User user = (User)person;
+                if (user.getUsername().equals(username) &&
+                        user.getPassword().equals(password) &&
+                        !(person instanceof Admin)) {
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
+
 
     // Adds a new admin to the system if the username is not already taken
     public static boolean addAdmin(String username, String password, String fullName,
