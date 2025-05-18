@@ -13,7 +13,7 @@ public class Event {
     private int capacity;
     private int bookedSeats;
     private String eventType;
-    private int discountThreshold; // no. tickets needed for discount eligibility
+    private int discountThreshold; // no. of tickets needed for discount eligibility
     private int discountPercentage;
 
     public Event(String name, String description, String venue, Date date,
@@ -65,6 +65,42 @@ public class Event {
     public boolean isSoldOut() {
         return bookedSeats >= capacity;
     }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getVenue() { return venue; }
+    public void setVenue(String venue) { this.venue = venue; }
+
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
+
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+
+    public int getCapacity() { return capacity; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
+
+    public int getBookedSeats() { return bookedSeats; }
+    public void setBookedSeats(int bookedSeats) { this.bookedSeats = bookedSeats; }
+
+    public int getAvailableSeats() { return capacity - bookedSeats; }
+
+    public String getEventType() { return eventType; }
+
+    public int getDiscountThreshold() { return discountThreshold; }
+    public void setDiscountThreshold(int discountThreshold) { this.discountThreshold = discountThreshold; }
+
+    public int getDiscountPercentage() { return discountPercentage; }
+    public void setDiscountPercentage(int discountPercentage) { this.discountPercentage = discountPercentage; }
+
+
 
 
 
