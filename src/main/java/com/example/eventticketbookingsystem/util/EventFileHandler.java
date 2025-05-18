@@ -122,6 +122,7 @@ public class EventFileHandler {
 
     // saving methods
 
+    // this is just a supporting method
     private boolean saveAllEvents(List<Event> events){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))){
 
@@ -179,6 +180,27 @@ public class EventFileHandler {
             System.out.println("Error when writing to file" + e.getMessage());
             return false;
         }
+    }
+
+    // this is the method used to save Events
+    public boolean saveEvents(Event event){
+
+        List<Event> events = getAllEvents();
+        boolean exists = false;
+
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getId().equals(event.getId())) {
+                exists = true;
+                break;
+            } else if (!exists) {
+                events.add(event);
+            }
+
+        }
+
+        //save events to file
+        return saveAllEvents(events);
+
     }
 
 }
