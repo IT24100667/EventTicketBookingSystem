@@ -5,10 +5,7 @@ import com.example.eventticketbookingsystem.model.Event;
 import com.example.eventticketbookingsystem.model.OtherEvent;
 import com.example.eventticketbookingsystem.model.Sports;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,6 +117,68 @@ public class EventFileHandler {
         // if we reach here it means no event found so null returned
         return null;
 
+    }
+
+
+    // saving methods
+
+    private boolean saveAllEvents(List<Event> events){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))){
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            // get the event from events list
+            for (Event event : events){
+                StringBuilder line = new StringBuilder();
+
+                // .append is used to add the values to the "line" and every value is seperated by "|"
+
+                //removing newlines to avoid any errors when admin gives a description
+                String cleanDescription = event.getDescription().replace("\n", " ").replace("\r", " ");
+
+                line.append(event.getEventType()).append("|");
+                line.append(event.getId()).append("|");
+                line.append(event.getName()).append("|");
+                line.append(cleanDescription).append("|");
+                line.append(event.getVenue()).append("|");
+                line.append(dateFormat.format(event.getDate())).append("|"); // converts the data to a string in yyyy-MM-dd format
+                line.append(event.getPrice()).append("|");
+                line.append(event.getCapacity()).append("|");
+                line.append(event.getBookedSeats()).append("|");
+                // until this point writing data to files remain the same for all event types
+
+
+                if (event.getEventType().equals("Concert")){
+                    Concert concert = (Concert) event;
+                    line.append(concert.getArtist()).append("|");
+                    line.append(concert.getDiscountThreshold()).append("|");
+                    line.append(concert.getDiscountPercentage());
+                }
+
+                else if (event.getEventType().equals("Sports")) {
+                    Sports sports = (Sports) event;
+                    line.append(sports.getSportType()).append("|");
+                    line.append(sports.getTeams());
+                }
+
+                else if (event.getEventType().equals("Other")) {
+                    OtherEvent otherEvent = (OtherEvent) event;
+                    line.append(otherEvent.getEventCategory()).append("|");
+                    line.append(otherEvent.getSpecialRequirements());
+                }
+
+
+                writer.write(line.toString());
+                writer.newLine();
+            }
+
+            return true;
+
+
+        } catch (IOException e) {
+            System.out.println("Error when writing to file" + e.getMessage());
+            return false;
+        }
     }
 
 }
