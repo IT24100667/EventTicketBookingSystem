@@ -15,5 +15,49 @@ public class BookingQueue {
         queue = new CustomLinkedList();
     }
 
+     // Add a booking to the end of the queue
 
+    public void enqueue(Booking booking) {
+        queue.addLast(booking);
+    }
+
+     // Remove and return the booking from the front of the queue
+     // Returns null if queue is empty
+
+    public Booking dequeue() {
+        if (isEmpty()) {
+            return null;
+        }
+        return (Booking) queue.removeFirst();
+    }
+
+     // Look at the booking at the front of the queue without removing it
+     // Returns null if queue is empty
+
+    public Booking peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return (Booking) queue.getFirst();
+    }
+
+     // Check if the queue is empty
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+
+     // Get the number of bookings in the queue
+
+    public int size() {
+        return queue.size();
+    }
+
+
+     // Clear all bookings from the queue
+
+    public void clear() {
+        queue.clear();
+    }
 }
