@@ -94,6 +94,33 @@ public class FeedbackFileHandler {
 
         return feedbacks;
     }
+    /**
+     * Get feedback by ID
+     */
+    public Feedback getFeedbackById(String id) {
+        List<Feedback> feedbacks = getAllFeedbacks();
+        for (Feedback feedback : feedbacks) {
+            if (feedback.getId().equals(id)) {
+                return feedback;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Delete feedback by ID
+     */
+    public synchronized boolean deleteFeedback(String id) {
+        List<Feedback> feedbacks = getAllFeedbacks();
+        boolean removed = feedbacks.removeIf(feedback -> feedback.getId().equals(id));
+
+        if (removed) {
+            return saveAllFeedbacks(feedbacks);
+        }
+        return false;
+    }
+
+
 
 
 }
