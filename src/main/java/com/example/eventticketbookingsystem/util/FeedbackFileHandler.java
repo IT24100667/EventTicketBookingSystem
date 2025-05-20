@@ -5,9 +5,7 @@ import com.example.eventticketbookingsystem.model.Feedback;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class FeedbackFileHandler {
     private static final String FILE_PATH = "C:\\Users\\ashinsana\\Desktop\\DaTa\\feedback.txt";
@@ -118,6 +116,44 @@ public class FeedbackFileHandler {
             return saveAllFeedbacks(feedbacks);
         }
         return false;
+    }
+
+    /**
+     * Calculate average rating
+     */
+    public double getAverageRating() {
+        List<Feedback> feedbacks = getAllFeedbacks();
+        if (feedbacks.isEmpty()) {
+            return 0;
+        }
+
+        double sum = 0;
+        for (Feedback feedback : feedbacks) {
+            sum += feedback.getRating();
+        }
+
+        return sum / feedbacks.size();
+    }
+
+    /**
+     * Count feedback by rating level
+     */
+    public Map<Integer, Integer> getFeedbackCounts() {
+        List<Feedback> feedbacks = getAllFeedbacks();
+        Map<Integer, Integer> counts = new HashMap<>();
+
+        // Initialize counts for all rating levels
+        for (int i = 1; i <= 5; i++) {
+            counts.put(i, 0);
+        }
+
+        // Count feedbacks by rating
+        for (Feedback feedback : feedbacks) {
+            int rating = feedback.getRating();
+            counts.put(rating, counts.get(rating) + 1);
+        }
+
+        return counts;
     }
 
 
