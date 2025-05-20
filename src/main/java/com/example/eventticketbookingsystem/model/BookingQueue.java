@@ -60,4 +60,22 @@ public class BookingQueue {
     public void clear() {
         queue.clear();
     }
+
+    // Check if a booking with the given ID exists in the queue
+
+    public boolean contains(String bookingId) {
+        // Get all bookings as an array to iterate through them
+        Object[] bookings = queue.toArray();
+
+        for (Object obj : bookings) {
+            Booking booking = (Booking) obj;
+            if (booking.getId().equals(bookingId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 }
