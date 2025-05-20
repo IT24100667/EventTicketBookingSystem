@@ -46,4 +46,45 @@ public class Booking {
         this.status = status;
         this.bookingDate = bookingDate;
     }
+
+    // Getter and setter methods
+    public String getId() {
+        return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public int getTicketQuantity() {
+        return ticketQuantity;
+    }
+
+    public void setTicketQuantity(int ticketQuantity) {
+        this.ticketQuantity = ticketQuantity;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
 }
