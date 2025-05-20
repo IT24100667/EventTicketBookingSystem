@@ -44,7 +44,7 @@ public class EventFileHandler {
                 int capacity = Integer.parseInt(parts[7]);
                 int bookedSeats = Integer.parseInt(parts[8]);
 
-                // Declare the event object
+                // Declaration
                 Event event = null;
 
                 // type, id, name, description, venue, date, price, capacity, bookedSeats, artist, discountThreshold, discountPercentage
@@ -54,9 +54,13 @@ public class EventFileHandler {
                     int discountPercentage = Integer.parseInt(parts[11]);
 
                     // instantize Concert object
-                    event = new Concert(name, description, venue, date, price, capacity, artist);
-                    event.setDiscountThreshold(discountThreshold);
-                    event.setDiscountPercentage(discountPercentage);
+                    Concert concertEvent = new Concert(name, description, venue, date, price, capacity, artist);
+
+                    concertEvent.setDiscountThreshold(discountThreshold);
+                    concertEvent.setDiscountPercentage(discountPercentage);
+
+                    // Assign to the event variable
+                    event = concertEvent;
 
 
 
