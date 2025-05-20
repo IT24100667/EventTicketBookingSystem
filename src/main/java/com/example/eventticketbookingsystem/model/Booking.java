@@ -48,6 +48,7 @@ public class Booking {
     }
 
     // Getter and setter methods
+
     public String getId() {
         return id;
     }
@@ -86,5 +87,27 @@ public class Booking {
 
     public Date getBookingDate() {
         return bookingDate;
+    }
+
+
+    // Check if booking is confirmed
+
+    public boolean isConfirmed() {
+        return STATUS_CONFIRMED.equals(status);
+    }
+
+    // Check if booking can be cancelled
+
+    public boolean canBeCancelled() {
+        // Can cancel if pending or confirmed
+        return STATUS_PENDING.equals(status) || STATUS_CONFIRMED.equals(status);
+    }
+
+    // Format booking for storage
+
+    @Override
+    public String toString() {
+        return "Booking #" + id + " - Event: " + eventId +
+                ", Status: " + status + ", Tickets: " + ticketQuantity;
     }
 }
