@@ -156,6 +156,37 @@ public class FeedbackFileHandler {
         return counts;
     }
 
+    /**
+     * Save all feedbacks to file
+     */
+    private synchronized boolean saveAllFeedbacks(List<Feedback> feedbacks) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Feedback feedback : feedbacks) {
+                // Clean comment by removing any pipe characters and newlines
+                String cleanComment = feedback.getComment() != null ?
+                        feedback.getComment().replace("|", " ").replace("\n", " ").replace("\r", " ") : "";
+
+                StringBuilder line = new StringBuilder();
+                line.append(feedback.getId()).append("|");
+                line.append(feedback.getUserId()).append("|");
+                line.append(feedback.getUsername()).append("|");
+                line.append(feedback.getRating()).append("|");
+                line.append(cleanComment).append("|");
+                line.append(DATE_FORMAT.format(feedback.getCreatedDate())).append("|");
+                line.append(DATE_FORMAT.format(feedback.getModifiedDate()));
+
+                writer.write(line.toString());
+                writer.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("Error writing to feedback file");
+            e.printStackTrace();
+            return false;
+        }
+    }
+}
+
 
 
 
