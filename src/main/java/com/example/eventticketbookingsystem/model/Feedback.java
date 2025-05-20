@@ -105,5 +105,17 @@ public class Feedback {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", username='" + username + '\'' +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                '}';
+    }
 }
+
