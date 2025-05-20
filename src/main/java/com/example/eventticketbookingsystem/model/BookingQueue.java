@@ -77,5 +77,54 @@ public class BookingQueue {
         return false;
     }
 
+     // Move a booking to the front of the queue (priority processing)
+     // Returns true if successful, false if booking not found
+
+    public boolean prioritize(String bookingId) {
+        // Find the booking
+        Booking bookingToMove = null;
+        Object[] bookings = queue.toArray();
+
+        for (Object obj : bookings) {
+            Booking booking = (Booking) obj;
+            if (booking.getId().equals(bookingId)) {
+                bookingToMove = booking;
+                break;
+            }
+        }
+
+        // If found, remove and add to front
+        if (bookingToMove != null) {
+            queue.remove(bookingToMove);
+            queue.addFirst(bookingToMove);
+            return true;
+        }
+
+        return false;
+    }
+
+     // Get all bookings in the queue (for admin view)
+
+    public CustomLinkedList getAllBookings() {
+        // Create a copy of the queue to avoid external modification
+        return queue.copy();
+    }
+
+
+     // Remove a specific booking from the queue by ID
+     // Returns true if removed, false if not found
+
+    public boolean removeBooking(String bookingId) {
+        Object[] bookings = queue.toArray();
+
+        for (Object obj : bookings) {
+            Booking booking = (Booking) obj;
+            if (booking.getId().equals(bookingId)) {
+                return queue.remove(booking);
+            }
+        }
+
+        return false;
+    }
 
 }
