@@ -93,6 +93,17 @@ public class Feedback {
         this.modifiedDate = modifiedDate;
     }
 
+    // Returns emoji based on rating
+    public String getRatingEmoji() {
+        switch (rating) {
+            case 5: return "😁"; // Very Happy
+            case 4: return "🙂"; // Happy
+            case 3: return "😐"; // Neutral
+            case 2: return "🙁"; // Sad
+            case 1: return "😞"; // Very Sad
+            default: return "❓"; // Unknown
+        }
+    }
 
 
 }
