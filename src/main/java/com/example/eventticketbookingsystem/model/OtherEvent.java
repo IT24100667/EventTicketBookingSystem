@@ -44,8 +44,5 @@ public class OtherEvent extends Event {
         return getPrice();
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + " - " + eventCategory;
-    }
+
 }
