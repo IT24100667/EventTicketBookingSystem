@@ -2,7 +2,11 @@ package com.example.eventticketbookingsystem.util;
 
 import com.example.eventticketbookingsystem.model.Feedback;
 
+import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FeedbackFileHandler {
@@ -33,4 +37,63 @@ public class FeedbackFileHandler {
         // Save all feedback
         return saveAllFeedbacks(feedbacks);
     }
+
+    /**
+     * Get all feedback from the file
+     */
+    public synchronized List<Feedback> getAllFeedbacks() {
+        List<Feedback> feedbacks = new ArrayList<>();
+
+        // Create directory if it doesn't exist
+        File directory = new File("C:\\Users\\oshan\\Desktop\\DaTa");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Check if file exists
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return feedbacks;  // Return empty list if file doesn't exist
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                try {
+                    String[] parts = line.split("\\|");
+
+                    if (parts.length < 7) {
+                        System.out.println("Invalid feedback format, skipping: " + line);
+                        continue;
+                    }
+
+                    String id = parts[0];
+                    String userId = parts[1];
+                    String username = parts[2];
+                    int rating = Integer.parseInt(parts[3]);
+                    String comment = parts[4];
+                    Date createdDate = DATE_FORMAT.parse(parts[5]);
+                    Date modifiedDate = DATE_FORMAT.parse(parts[6]);
+
+                    Feedback feedback = new Feedback(
+                            id, userId, username, rating, comment, createdDate, modifiedDate
+                    );
+                    feedbacks.add(feedback);
+                } catch (ParseException | NumberFormatException e) {
+                    System.out.println("Error parsing feedback line: " + line);
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // File doesn't exist yet, return empty list
+        } catch (IOException e) {
+            System.out.println("Error reading feedback file");
+            e.printStackTrace();
+        }
+
+        return feedbacks;
+    }
+
+
 }
