@@ -5,6 +5,8 @@ import com.example.eventticketbookingsystem.model.BookingQueue;
 import com.example.eventticketbookingsystem.model.Event;
 import com.example.eventticketbookingsystem.util.BookingFileHandler;
 
+import java.util.List;
+
 public class BookingController {
 
     private BookingFileHandler fileHandler;
@@ -54,5 +56,38 @@ public class BookingController {
         bookingQueue.enqueue(booking);
 
         return booking.getId();
+    }
+
+     // Get a booking by ID
+
+    public Booking getBookingById(String bookingId) {
+        if (bookingId == null || bookingId.trim().isEmpty()) {
+            return null;
+        }
+
+        return fileHandler.getBookingById(bookingId);
+    }
+
+     // Get all bookings for a user
+
+    public List<Booking> getUserBookings(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            return null;
+        }
+
+        return fileHandler.getBookingsByUserId(userId);
+    }
+
+
+     // Update booking status
+
+    public boolean updateBookingStatus(String bookingId, String newStatus) {
+        Booking booking = getBookingById(bookingId);
+        if (booking == null) {
+            return false;
+        }
+
+        booking.setStatus(newStatus);
+        return fileHandler.saveBooking(booking);
     }
 }
