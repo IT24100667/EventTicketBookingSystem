@@ -174,4 +174,56 @@ public class BookingController {
         return fileHandler.saveBooking(booking);
     }
 
+    // Get all bookings (for admin)
+
+    public List<Booking> getAllBookings() {
+        return fileHandler.getAllBookings();
+    }
+
+     // Get bookings by status (for admin)
+
+    public List<Booking> getBookingsByStatus(String status) {
+        return fileHandler.getBookingsByStatus(status);
+    }
+
+     // Get bookings for an event (for admin)
+
+    public List<Booking> getBookingsByEventId(String eventId) {
+        return fileHandler.getBookingsByEventId(eventId);
+    }
+
+
+     // Cancel booking by admin (no user check)
+
+    public boolean cancelBookingByAdmin(String bookingId) {
+        Booking booking = getBookingById(bookingId);
+
+        if (booking == null) {
+            return false;
+        }
+
+        // Update status to cancelled
+        booking.setStatus(Booking.STATUS_CANCELLED);
+        boolean updated = fileHandler.saveBooking(booking);
+
+        if (updated) {
+            // Remove from queue if present
+            bookingQueue.removeBooking(bookingId);
+
+            // Release tickets back to event if confirmed
+            if (Booking.STATUS_CONFIRMED.equals(booking.getStatus())) {
+                Event event = eventController.getEventById(booking.getEventId());
+                if (event != null) {
+                    int newBookedSeats = event.getBookedSeats() - booking.getTicketQuantity();
+                    if (newBookedSeats < 0) {
+                        newBookedSeats = 0;  // Safety check
+                    }
+                    event.setBookedSeats(newBookedSeats);
+                    eventController.updateEvent(event);
+                }
+            }
+        }
+
+        return updated;
+    }
 }
