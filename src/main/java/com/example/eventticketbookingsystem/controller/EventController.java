@@ -1,11 +1,13 @@
 package com.example.eventticketbookingsystem.controller;
 
 import com.example.eventticketbookingsystem.model.Concert;
+import com.example.eventticketbookingsystem.model.Event;
 import com.example.eventticketbookingsystem.model.OtherEvent;
 import com.example.eventticketbookingsystem.model.Sports;
 import com.example.eventticketbookingsystem.util.EventFileHandler;
 
 import java.util.Date;
+import java.util.List;
 
 public class EventController {
 
@@ -84,6 +86,27 @@ public class EventController {
 
         return fileHandler.saveEvent(event);
     }
+
+
+    // 2. Read
+
+    // Read a singular event
+    public Event getEventById(String eventId) {
+        // Validation
+        if (eventId == null || eventId.trim().isEmpty()) {
+            return null;
+        }
+
+        return fileHandler.getEventById(eventId);
+    }
+
+    // Read all Events
+    public List<Event> getAllEvents() {
+        return fileHandler.getAllEvents();
+    }
+
+
+
 
 
 
