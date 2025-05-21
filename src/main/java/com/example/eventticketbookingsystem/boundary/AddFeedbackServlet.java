@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AddFeedbackServlet {
+
     private FeedbackController feedbackController = new FeedbackController();
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -78,49 +79,3 @@ public class AddFeedbackServlet {
         User user = (User) session.getAttribute("user");
 
         try {
-            // Get form data
-            int rating = Integer.parseInt(request.getParameter("rating"));
-            String comment = request.getParameter("comment");
-
-            // Check if this is an edit or a new feedback
-            String feedbackUserId = request.getParameter("feedbackUserId");
-            String createdDateStr = request.getParameter("feedbackCreatedDate");
-            boolean success;
-
-            if (feedbackUserId != null && !feedbackUserId.isEmpty() &&
-                    createdDateStr != null && !createdDateStr.isEmpty()) {
-                try {
-                    // Parse the created date
-                    Date createdDate = DATE_FORMAT.parse(createdDateStr);
-
-                    // Update existing feedback
-                    success = feedbackController.updateFeedback(feedbackUserId, createdDate, rating, comment);
-                    if (success) {
-                        request.setAttribute("message", "Your feedback has been updated!");
-                    } else {
-                        request.setAttribute("error", "Failed to update feedback. You may not have permission to edit this feedback.");
-                    }
-                } catch (ParseException e) {
-                    request.setAttribute("error", "Invalid date format for feedback.");
-                    request.getRequestDispatcher("ViewFeedbacksServlet").forward(request, response);
-                    return;
-                }
-            } else {
-                // Add new feedback
-                success = feedbackController.saveFeedback(user, rating, comment);
-                if (success) {
-                    request.setAttribute("message", "Thank you for your feedback!");
-                } else {
-                    request.setAttribute("error", "Failed to save feedback. Please try again.");
-                }
-            }
-
-            // Redirect to view feedbacks
-            request.getRequestDispatcher("ViewFeedbacksServlet").forward(request, response);
-
-        } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid rating. Please select a rating from 1 to 5.");
-            request.getRequestDispatcher("addFeedback.jsp").forward(request, response);
-        }
-    }
-}
