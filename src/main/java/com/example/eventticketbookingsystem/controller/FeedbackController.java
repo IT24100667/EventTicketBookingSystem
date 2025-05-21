@@ -16,7 +16,6 @@ public class FeedbackController {
 
     /**
      * Add a new feedback from a user
-     *
      * @return true if successful, false otherwise
      */
     public boolean saveFeedback(User user, int rating, String comment) {
@@ -42,5 +41,28 @@ public class FeedbackController {
         }
         return false;
     }
+
+    /**
+     * Get average rating
+     */
+    public double getAverageRating() {
+        return fileHandler.getAverageRating();
+    }
+
+    /**
+     * Get feedback counts by rating
+     */
+    public Map<Integer, Integer> getFeedbackCounts() {
+        return fileHandler.getFeedbackCounts();
+    }
+
+    /**
+     * Check if a user can edit the specified feedback
+     */
+    public boolean canEditFeedback(String feedbackId, String userId) {
+        Feedback feedback = fileHandler.getFeedbackById(feedbackId);
+        return feedback != null && feedback.getUserId().equals(userId);
+    }
+}
 
 
