@@ -106,6 +106,27 @@ public class EventController {
     }
 
 
+    // 3. Update
+
+    public boolean updateEvent(Event event) {
+        if (event == null) {
+            return false;
+        }
+
+        return fileHandler.updateEvent(event);
+    }
+
+    // 4. Delete
+
+    public boolean deleteEvent(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            return false;
+        }
+
+        return fileHandler.deleteEvent(id);
+    }
+
+
 
 
 
