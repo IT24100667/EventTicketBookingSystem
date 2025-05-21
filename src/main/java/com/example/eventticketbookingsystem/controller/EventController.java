@@ -1,6 +1,8 @@
 package com.example.eventticketbookingsystem.controller;
 
 import com.example.eventticketbookingsystem.model.Concert;
+import com.example.eventticketbookingsystem.model.OtherEvent;
+import com.example.eventticketbookingsystem.model.Sports;
 import com.example.eventticketbookingsystem.util.EventFileHandler;
 
 import java.util.Date;
@@ -45,6 +47,44 @@ public class EventController {
         // Once concert event is created save to file
         return fileHandler.saveEvent(concert);
     }
+
+    // Create Sport
+    public boolean createSports(String name, String description, String venue, Date date, double price, int capacity, String sportType, String teams) {
+
+
+        if (name == null || name.trim().isEmpty() || venue == null || venue.trim().isEmpty() || date == null || price <= 0 || capacity <= 0) {
+            return false;
+        }
+
+        // Handle null values
+        if (description == null) description = "";
+        if (sportType == null) sportType = "";
+        if (teams == null) teams = "";
+
+        Sports sports = new Sports(name, description, venue, date, price, capacity, sportType, teams);
+
+        return fileHandler.saveEvent(sports);
+    }
+
+    // For OtherEvent
+    public boolean createOtherEvent(String name, String description, String venue, Date date, double price, int capacity, String eventCategory, String specialRequirements) {
+
+
+        if (name == null || name.trim().isEmpty() || venue == null || venue.trim().isEmpty() ||
+                date == null || price <= 0 || capacity <= 0) {
+            return false;
+        }
+
+        // Handle null values
+        if (description == null) description = "";
+        if (eventCategory == null) eventCategory = "";
+        if (specialRequirements == null) specialRequirements = "";
+
+        OtherEvent event = new OtherEvent(name, description, venue, date, price, capacity, eventCategory, specialRequirements);
+
+        return fileHandler.saveEvent(event);
+    }
+
 
 
 }
