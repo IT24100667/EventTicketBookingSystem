@@ -4,6 +4,8 @@ import com.example.eventticketbookingsystem.model.Feedback;
 import com.example.eventticketbookingsystem.model.User;
 import com.example.eventticketbookingsystem.util.FeedbackFileHandler;
 
+import java.util.Map;
+
 public class FeedbackController {
     // Changed to public for admin access
     public FeedbackFileHandler fileHandler;
@@ -40,4 +42,25 @@ public class FeedbackController {
         return false;
     }
 
+    /**
+     * Get average rating
+     */
+    public double getAverageRating() {
+        return fileHandler.getAverageRating();
+    }
+
+    /**
+     * Get feedback counts by rating
+     */
+    public Map<Integer, Integer> getFeedbackCounts() {
+        return fileHandler.getFeedbackCounts();
+    }
+
+    /**
+     * Check if a user can edit the specified feedback
+     */
+    public boolean canEditFeedback(String feedbackId, String userId) {
+        Feedback feedback = fileHandler.getFeedbackById(feedbackId);
+        return feedback != null && feedback.getUserId().equals(userId);
+    }
 }
