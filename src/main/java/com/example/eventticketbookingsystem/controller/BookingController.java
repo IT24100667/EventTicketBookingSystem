@@ -173,4 +173,5 @@ public class BookingController {
         booking.setStatus(Booking.STATUS_CONFIRMED);
         return fileHandler.saveBooking(booking);
     }
+
 }
