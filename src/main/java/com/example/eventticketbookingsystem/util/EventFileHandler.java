@@ -209,24 +209,62 @@ public class EventFileHandler {
     }
 
     // this is the method used to save Events
-    public boolean saveEvents(Event event){
+    public boolean saveEvent(Event event){
 
         List<Event> events = getAllEvents();
         boolean exists = false;
 
         for (int i = 0; i < events.size(); i++) {
             if (events.get(i).getId().equals(event.getId())) {
+                events.set(i, event); // replace event -> useful for updates
                 exists = true;
                 break;
-            } else if (!exists) {
-                events.add(event);
             }
 
+        }
+
+        if (!exists) {
+            events.add(event); // Add only if not found
         }
 
         //save events to file
         return saveAllEvents(events);
 
     }
+
+    public boolean updateEvent(Event updatedEvent) {
+        if (updatedEvent == null) {
+            return false;
+        }
+        return saveEvent(updatedEvent);  // saveEvent handles updates too
+    }
+
+
+    public boolean deleteEvent(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            return false;
+        }
+
+        List<Event> events = getAllEvents();
+        List<Event> updatedEvents = new ArrayList<>();
+        boolean removed = false;
+
+        // Copy all events except the one to be removed
+        for (Event event : events) {
+            if (!event.getId().equals(id)) {
+                updatedEvents.add(event);
+            } else {
+                removed = true;
+            }
+        }
+
+        if (removed) {
+            return saveAllEvents(updatedEvents);
+        }
+
+        return false; // Event not found
+    }
+
+
 
 }
