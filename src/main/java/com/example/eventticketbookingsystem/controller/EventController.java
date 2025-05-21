@@ -6,6 +6,7 @@ import com.example.eventticketbookingsystem.model.OtherEvent;
 import com.example.eventticketbookingsystem.model.Sports;
 import com.example.eventticketbookingsystem.util.EventFileHandler;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -127,6 +128,67 @@ public class EventController {
     }
 
 
+    // 5. overloaded search methods
+
+    // Search by name
+    public List<Event> searchEvents(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Event> allEvents = getAllEvents();
+        List<Event> result = new ArrayList<>();
+
+        String searchName = name.toLowerCase().trim();
+        for (Event event : allEvents) {
+            if (event.getName().toLowerCase().contains(searchName)) {
+                result.add(event);
+            }
+        }
+
+        return result;
+    }
+
+
+
+    // Search by price range
+    public List<Event> searchEvents(double minPrice, double maxPrice) {
+        if (minPrice < 0 || maxPrice < minPrice) {
+            return new ArrayList<>();
+        }
+
+        List<Event> allEvents = getAllEvents();
+        List<Event> result = new ArrayList<>();
+
+        for (Event event : allEvents) {
+            double price = event.getPrice();
+            if (price >= minPrice && price <= maxPrice) {
+                result.add(event);
+            }
+        }
+
+        return result;
+    }
+
+
+    // Search by venue
+    public List<Event> searchEventsByVenue(String venue) {
+        if (venue == null || venue.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Event> allEvents = getAllEvents();
+        List<Event> result = new ArrayList<>();
+
+        String searchVenue = venue.toLowerCase().trim();
+        for (Event event : allEvents) {
+            if (event.getVenue().toLowerCase().contains(searchVenue)) {
+                result.add(event);
+            }
+        }
+
+        return result;
+    }
 
 
 
