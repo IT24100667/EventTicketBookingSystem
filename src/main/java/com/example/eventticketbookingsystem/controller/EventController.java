@@ -191,6 +191,33 @@ public class EventController {
     }
 
 
+    public double calculateTicketPrice(String eventId, int quantity) {
+        if (quantity <= 0) {
+            return -1;
+        }
+
+        Event event = getEventById(eventId);
+        if (event == null) {
+            return -1;
+        }
+
+        double unitPrice = event.calculateTicketPrice();
+        double totalPrice = unitPrice * quantity;
+
+        // Apply Concert discount if applicable
+        if (event.getEventType().equals("Concert")) {
+            Concert concert = (Concert) event;
+            totalPrice = totalPrice - (totalPrice * concert.getDiscount(quantity));
+        }
+
+        return totalPrice;
+    }
+
+
+
+
+
+
 
 
 }

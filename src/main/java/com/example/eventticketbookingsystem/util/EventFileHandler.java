@@ -254,7 +254,7 @@ public class EventFileHandler {
 
         // Copy all events except the one to be removed
         for (Event event : events) {
-            if (!event.getId().equals(id)) {
+            if (! event.getId().equals(id)) {
                 updatedEvents.add(event);
             } else {
                 removed = true;
@@ -267,6 +267,8 @@ public class EventFileHandler {
 
         return false; // Event not found
     }
+
+
 
 
 
