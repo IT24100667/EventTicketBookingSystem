@@ -130,4 +130,47 @@ public class BookingController {
 
         return updated;
     }
+
+     // Process the next booking in the queue
+     // Returns true if successful, false if queue empty or processing failed
+
+    public boolean processNextBooking() {
+        if (bookingQueue.isEmpty()) {
+            return false;
+        }
+
+        Booking booking = bookingQueue.dequeue();
+
+        // Check if booking is still pending
+        if (!Booking.STATUS_PENDING.equals(booking.getStatus())) {
+            return false;  // Booking already processed or cancelled
+        }
+
+        // Get the event
+        Event event = eventController.getEventById(booking.getEventId());
+        if (event == null) {
+            return false;
+        }
+
+        // Check if seats still available
+        if (event.getAvailableSeats() < booking.getTicketQuantity()) {
+            // Not enough seats, mark booking as failed
+            booking.setStatus(Booking.STATUS_FAILED);
+            fileHandler.saveBooking(booking);
+            return false;
+        }
+
+        // Book the seats
+        boolean booked = eventController.bookTickets(booking.getEventId(), booking.getTicketQuantity());
+        if (!booked) {
+            // Failed to book, mark as failed
+            booking.setStatus(Booking.STATUS_FAILED);
+            fileHandler.saveBooking(booking);
+            return false;
+        }
+
+        // Mark as confirmed
+        booking.setStatus(Booking.STATUS_CONFIRMED);
+        return fileHandler.saveBooking(booking);
+    }
 }
