@@ -90,4 +90,44 @@ public class BookingController {
         booking.setStatus(newStatus);
         return fileHandler.saveBooking(booking);
     }
+
+    // Cancel a booking
+
+    public boolean cancelBooking(String bookingId, String userId) {
+        Booking booking = getBookingById(bookingId);
+
+        // Check if booking exists and belongs to user
+        if (booking == null || !booking.getUserId().equals(userId)) {
+            return false;
+        }
+
+        // Check if booking can be cancelled
+        if (!booking.canBeCancelled()) {
+            return false;
+        }
+
+        // Update status to cancelled
+        booking.setStatus(Booking.STATUS_CANCELLED);
+        boolean updated = fileHandler.saveBooking(booking);
+
+        if (updated) {
+            // Remove from queue if present
+            bookingQueue.removeBooking(bookingId);
+
+            // Release tickets back to event if confirmed
+            if (Booking.STATUS_CONFIRMED.equals(booking.getStatus())) {
+                Event event = eventController.getEventById(booking.getEventId());
+                if (event != null) {
+                    int newBookedSeats = event.getBookedSeats() - booking.getTicketQuantity();
+                    if (newBookedSeats < 0) {
+                        newBookedSeats = 0;  // Safety check
+                    }
+                    event.setBookedSeats(newBookedSeats);
+                    eventController.updateEvent(event);
+                }
+            }
+        }
+
+        return updated;
+    }
 }
