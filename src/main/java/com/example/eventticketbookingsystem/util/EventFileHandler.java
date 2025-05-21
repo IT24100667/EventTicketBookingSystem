@@ -46,8 +46,11 @@ public class EventFileHandler {
 
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))){
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
             String line;
+
             while ((line = reader.readLine()) != null){
 
                 //  The split() method in Java interprets "|" as "or" operator.  \\| escapes it to make it an  "|" character.

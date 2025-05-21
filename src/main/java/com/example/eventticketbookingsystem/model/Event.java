@@ -16,8 +16,7 @@ public abstract class Event {
 
 
 
-    public Event(String name, String description, String venue, Date date,
-                 double price, int capacity, String eventType) {
+    public Event(String name, String description, String venue, Date date, double price, int capacity, String eventType) {
         this.id = generateId();
         this.name = name;
         this.description = description;

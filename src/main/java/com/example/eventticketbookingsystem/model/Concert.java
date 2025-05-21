@@ -2,20 +2,14 @@ package com.example.eventticketbookingsystem.model;
 
 import java.util.Date;
 
-/**
- * Concert class - extends Event and implements Discountable
- * Shows inheritance and polymorphism (method overriding)
- */
+// discount interface implemented
 public class Concert extends Event implements Discountable {
     private String artist;
     private int discountThreshold;
     private int discountPercentage;
 
-    /**
-     * Constructor for Concert
-     */
-    public Concert(String name, String description, String venue, Date date,
-                   double price, int capacity, String artist) {
+   // constructor
+    public Concert(String name, String description, String venue, Date date, double price, int capacity, String artist) {
         // Call parent constructor
         super(name, description, venue, date, price, capacity, "Concert");
         this.artist = artist;
