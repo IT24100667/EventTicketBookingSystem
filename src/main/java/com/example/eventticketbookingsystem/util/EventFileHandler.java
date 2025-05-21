@@ -14,7 +14,29 @@ import java.util.List;
 
 public class EventFileHandler {
 
-    private static final String FILE_PATH = "C:\\Users\\Vivobook\\eventbookingsystem\\data\\events.txt";
+    // added a specific location for data files
+    private static final String DATA_DIRECTORY = System.getProperty("user.home") +
+            File.separator + "eventbookingsystem" + File.separator + "data";
+
+    private static final String FILE_PATH = DATA_DIRECTORY + File.separator + "events.txt";
+
+    // Constructor to ensure the data directory exists
+    public EventFileHandler() {
+        initializeDataDirectory();
+    }
+
+    // Make sure the data directory exists
+    private void initializeDataDirectory() {
+        File directory = new File(DATA_DIRECTORY);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs();
+            if (created) {
+                System.out.println("Created data directory at: " + DATA_DIRECTORY);
+            } else {
+                System.out.println("Failed to create data directory at: " + DATA_DIRECTORY);
+            }
+        }
+    }
 
     // data stored in file - type, id, name, description, venue, date, price, capacity, bookedSeats, ....(varies based on type)
 
