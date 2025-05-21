@@ -115,7 +115,7 @@ public class AddFeedbackServlet {
                 }
             }
 
-            // Redirect to view all feedback
+            // Redirect to view feedbacks
             request.getRequestDispatcher("ViewFeedbacksServlet").forward(request, response);
 
         } catch (NumberFormatException e) {
