@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FeedbackFileHandler {
-    private static final String FILE_PATH = "C:\\Users\\ashinsana\\Desktop\\DaTa\\feedback.txt";
+    private static final String FILE_PATH = "C:\\Users\\ashinsana\\Desktop\\Data 2\\feedback.txt";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -18,9 +18,10 @@ public class FeedbackFileHandler {
         List<Feedback> feedbacks = getAllFeedbacks();
         boolean isUpdate = false;
 
-        // Check if this is an update to existing feedback
+        // Check if this is an update to existing feedback based on userId and createdDate
         for (int i = 0; i < feedbacks.size(); i++) {
-            if (feedbacks.get(i).getId().equals(feedback.getId())) {
+            if (feedbacks.get(i).getUserId().equals(feedback.getUserId()) &&
+                    isSameDate(feedbacks.get(i).getCreatedDate(), feedback.getCreatedDate())) {
                 feedbacks.set(i, feedback);
                 isUpdate = true;
                 break;
@@ -43,7 +44,7 @@ public class FeedbackFileHandler {
         List<Feedback> feedbacks = new ArrayList<>();
 
         // Create directory if it doesn't exist
-        File directory = new File("C:\\Users\\oshan\\Desktop\\DaTa");
+        File directory = new File("C:\\Users\\oshan\\Desktop\\Data 2");
         if (!directory.exists()) {
             directory.mkdirs();
         }
@@ -61,21 +62,20 @@ public class FeedbackFileHandler {
                 try {
                     String[] parts = line.split("\\|");
 
-                    if (parts.length < 7) {
+                    if (parts.length < 6) {
                         System.out.println("Invalid feedback format, skipping: " + line);
                         continue;
                     }
 
-                    String id = parts[0];
-                    String userId = parts[1];
-                    String username = parts[2];
-                    int rating = Integer.parseInt(parts[3]);
-                    String comment = parts[4];
-                    Date createdDate = DATE_FORMAT.parse(parts[5]);
-                    Date modifiedDate = DATE_FORMAT.parse(parts[6]);
+                    String userId = parts[0];
+                    String username = parts[1];
+                    int rating = Integer.parseInt(parts[2]);
+                    String comment = parts[3];
+                    Date createdDate = DATE_FORMAT.parse(parts[4]);
+                    Date modifiedDate = DATE_FORMAT.parse(parts[5]);
 
                     Feedback feedback = new Feedback(
-                            id, userId, username, rating, comment, createdDate, modifiedDate
+                            userId, username, rating, comment, createdDate, modifiedDate
                     );
                     feedbacks.add(feedback);
                 } catch (ParseException | NumberFormatException e) {
@@ -92,13 +92,14 @@ public class FeedbackFileHandler {
 
         return feedbacks;
     }
+
     /**
-     * Get feedback by ID
+     * Get feedback by userId and createdDate
      */
-    public Feedback getFeedbackById(String id) {
+    public Feedback getFeedbackByUserIdAndDate(String userId, Date createdDate) {
         List<Feedback> feedbacks = getAllFeedbacks();
         for (Feedback feedback : feedbacks) {
-            if (feedback.getId().equals(id)) {
+            if (feedback.getUserId().equals(userId) && isSameDate(feedback.getCreatedDate(), createdDate)) {
                 return feedback;
             }
         }
@@ -106,11 +107,12 @@ public class FeedbackFileHandler {
     }
 
     /**
-     * Delete feedback by ID
+     * Delete feedback by userId and createdDate
      */
-    public synchronized boolean deleteFeedback(String id) {
+    public synchronized boolean deleteFeedback(String userId, Date createdDate) {
         List<Feedback> feedbacks = getAllFeedbacks();
-        boolean removed = feedbacks.removeIf(feedback -> feedback.getId().equals(id));
+        boolean removed = feedbacks.removeIf(feedback ->
+                feedback.getUserId().equals(userId) && isSameDate(feedback.getCreatedDate(), createdDate));
 
         if (removed) {
             return saveAllFeedbacks(feedbacks);
@@ -157,6 +159,18 @@ public class FeedbackFileHandler {
     }
 
     /**
+     * Helper method to compare dates ignoring milliseconds
+     */
+    private boolean isSameDate(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            return false;
+        }
+
+        // Compare by formatted string to ignore milliseconds
+        return DATE_FORMAT.format(date1).equals(DATE_FORMAT.format(date2));
+    }
+
+    /**
      * Save all feedbacks to file
      */
     private synchronized boolean saveAllFeedbacks(List<Feedback> feedbacks) {
@@ -167,7 +181,6 @@ public class FeedbackFileHandler {
                         feedback.getComment().replace("|", " ").replace("\n", " ").replace("\r", " ") : "";
 
                 StringBuilder line = new StringBuilder();
-                line.append(feedback.getId()).append("|");
                 line.append(feedback.getUserId()).append("|");
                 line.append(feedback.getUsername()).append("|");
                 line.append(feedback.getRating()).append("|");
@@ -185,9 +198,4 @@ public class FeedbackFileHandler {
             return false;
         }
     }
-}
-
-
-
-
 }

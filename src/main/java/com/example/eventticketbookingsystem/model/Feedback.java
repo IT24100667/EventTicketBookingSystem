@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Feedback {
-    private String id;
     private String userId;
     private String username; // Store username for display purposes
     private int rating; // 1-5 rating (5 is best)
@@ -12,9 +11,10 @@ public class Feedback {
     private Date createdDate;
     private Date modifiedDate;
 
-    // Constructor for new feedback
+    /**
+     * Constructor for  creating a new feedback
+     */
     public Feedback(String userId, String username, int rating, String comment) {
-        this.id = "FB" + UUID.randomUUID().toString().substring(0, 10).toUpperCase();
         this.userId = userId;
         this.username = username;
         this.rating = Math.min(5, Math.max(1, rating)); // Ensure rating is between 1 and 5
@@ -23,9 +23,10 @@ public class Feedback {
         this.modifiedDate = new Date();
     }
 
-    // Constructor for loading from file
-    public Feedback(String id, String userId, String username, int rating, String comment, Date createdDate, Date modifiedDate) {
-        this.id = id;
+    /**
+     * Constructor for loading existing feedback
+     */
+    public Feedback(String userId, String username, int rating, String comment, Date createdDate, Date modifiedDate) {
         this.userId = userId;
         this.username = username;
         this.rating = rating;
@@ -34,15 +35,7 @@ public class Feedback {
         this.modifiedDate = modifiedDate;
     }
 
-    // Getters and setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    // Getters and setters for userId
     public String getUserId() {
         return userId;
     }
@@ -51,6 +44,7 @@ public class Feedback {
         this.userId = userId;
     }
 
+    // Getters and setters for username
     public String getUsername() {
         return username;
     }
@@ -59,24 +53,35 @@ public class Feedback {
         this.username = username;
     }
 
+    // Getters and setters for rating
     public int getRating() {
         return rating;
     }
 
+    /**
+     * Sets rating (only allows values from 1 to 5)
+     * Also updates the modified date
+     */
     public void setRating(int rating) {
         this.rating = Math.min(5, Math.max(1, rating));
         this.modifiedDate = new Date();
     }
 
+    // Getters and setters for comment
     public String getComment() {
         return comment;
     }
 
+    /**
+     * Sets comment and updates the modified date
+     */
     public void setComment(String comment) {
         this.comment = comment;
         this.modifiedDate = new Date();
     }
 
+
+    // Getters and setters for createdDate
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -85,6 +90,7 @@ public class Feedback {
         this.createdDate = createdDate;
     }
 
+    // Getters and setters for modifiedDate
     public Date getModifiedDate() {
         return modifiedDate;
     }
@@ -93,7 +99,9 @@ public class Feedback {
         this.modifiedDate = modifiedDate;
     }
 
-    // Returns emoji based on rating
+    /**
+     * Returns emoji based on rating value
+     */
     public String getRatingEmoji() {
         switch (rating) {
             case 5: return "😁"; // Very Happy
@@ -105,11 +113,24 @@ public class Feedback {
         }
     }
 
+    /**
+     * Returns a CSS class based on rating
+     */
+    public String getRatingClass() {
+        switch (rating) {
+            case 5: return "rating-excellent";
+            case 4: return "rating-good";
+            case 3: return "rating-average";
+            case 2: return "rating-poor";
+            case 1: return "rating-terrible";
+            default: return "";
+        }
+    }
+
     @Override
     public String toString() {
         return "Feedback{" +
-                "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
+                "userId='" + userId + '\'' +
                 ", username='" + username + '\'' +
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
@@ -118,4 +139,3 @@ public class Feedback {
                 '}';
     }
 }
-
