@@ -213,6 +213,23 @@ public class EventController {
         return totalPrice;
     }
 
+    // Book tickets
+    public boolean bookTickets(String eventId, int numberOfTickets) {
+        Event event = getEventById(eventId);
+        if (event == null) {
+            return false;
+        }
+
+        boolean booked = event.bookTickets(numberOfTickets);
+        if (booked) {
+            return fileHandler.updateEvent(event);
+        }
+        return false;
+    }
+
+
+    // methods related to sort will be posted below this
+
 
 
 
