@@ -2,9 +2,11 @@ package com.example.eventticketbookingsystem.controller;
 
 import com.example.eventticketbookingsystem.model.Booking;
 import com.example.eventticketbookingsystem.model.BookingQueue;
+import com.example.eventticketbookingsystem.model.CustomLinkedList;
 import com.example.eventticketbookingsystem.model.Event;
 import com.example.eventticketbookingsystem.util.BookingFileHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingController {
@@ -225,5 +227,131 @@ public class BookingController {
         }
 
         return updated;
+    }
+
+     // Update booking by admin (quantity and status)
+
+    public boolean updateBookingByAdmin(String bookingId, String status, int ticketQuantity) {
+        Booking booking = getBookingById(bookingId);
+
+        if (booking == null) {
+            return false;
+        }
+
+        // Only update if status or quantity has changed
+        boolean changed = false;
+
+        if (!booking.getStatus().equals(status)) {
+            booking.setStatus(status);
+            changed = true;
+        }
+
+        if (booking.getTicketQuantity() != ticketQuantity) {
+            // Handle ticket quantity change
+            Event event = eventController.getEventById(booking.getEventId());
+            if (event == null) {
+                return false;
+            }
+
+            // Check if increase in quantity is possible
+            if (ticketQuantity > booking.getTicketQuantity()) {
+                int difference = ticketQuantity - booking.getTicketQuantity();
+                if (event.getAvailableSeats() < difference) {
+                    return false;  // Not enough seats
+                }
+
+                // Update event booked seats
+                event.setBookedSeats(event.getBookedSeats() + difference);
+                eventController.updateEvent(event);
+            } else if (ticketQuantity < booking.getTicketQuantity()) {
+                // Decrease in quantity
+                int difference = booking.getTicketQuantity() - ticketQuantity;
+
+                // Update event booked seats
+                int newBookedSeats = event.getBookedSeats() - difference;
+                if (newBookedSeats < 0) {
+                    newBookedSeats = 0;  // Safety check
+                }
+                event.setBookedSeats(newBookedSeats);
+                eventController.updateEvent(event);
+            }
+
+            // Update booking quantity and recalculate price
+            booking.setTicketQuantity(ticketQuantity);
+            double newPrice = eventController.calculateTicketPrice(booking.getEventId(), ticketQuantity);
+            booking.setTotalPrice(newPrice);
+            changed = true;
+        }
+
+        return changed ? fileHandler.saveBooking(booking) : true;
+    }
+
+     // Prioritize a booking in the queue (move to front)
+
+    public boolean prioritizeBookingInQueue(String bookingId) {
+        return bookingQueue.prioritize(bookingId);
+    }
+
+     // Get all bookings currently in the queue
+     // Converts the CustomLinkedList to a standard ArrayList for compatibility
+
+    public List<Booking> getBookingsInQueue() {
+        CustomLinkedList queueBookings = bookingQueue.getAllBookings();
+        Object[] bookingArray = queueBookings.toArray();
+
+        // Convert to ArrayList for compatibility
+        List<Booking> result = new ArrayList<>();
+        for (Object obj : bookingArray) {
+            result.add((Booking)obj);
+        }
+
+        return result;
+    }
+
+     // Process all bookings in the queue
+     // @return the number of bookings successfully processed
+
+    public int processAllBookings() {
+        int count = 0;
+        while (!bookingQueue.isEmpty()) {
+            boolean success = processNextBooking();
+            if (success) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+     // Check if a booking is currently in the processing queue
+     // @param bookingId The ID of the booking to check
+     // @return true if the booking is in queue, false otherwise
+
+    public boolean isBookingInQueue(String bookingId) {
+        return bookingQueue.contains(bookingId);
+    }
+
+     // Add an existing booking to the queue
+     // @param bookingId ID of the booking to add to queue
+     // @return true if successful, false otherwise
+
+    public boolean addBookingToQueue(String bookingId) {
+        Booking booking = getBookingById(bookingId);
+        if (booking == null) {
+            return false;
+        }
+
+        // Make sure it's pending
+        if (!Booking.STATUS_PENDING.equals(booking.getStatus())) {
+            booking.setStatus(Booking.STATUS_PENDING);
+            fileHandler.saveBooking(booking);
+        }
+
+        // Add to queue if not already there
+        if (!bookingQueue.contains(bookingId)) {
+            bookingQueue.enqueue(booking);
+            return true;
+        }
+
+        return false; // Already in queue
     }
 }
