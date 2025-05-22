@@ -347,50 +347,50 @@
         </div>
     </div>
 
-    <div class="row">
-        <!-- Payment Management Card -->
-        <div class="col-md-4">
-            <div class="dashboard-card">
-                <div class="card-header-custom d-flex">
-                    <div class="icon-area bg-payment flex-shrink-0">
-                        <i class="icon fas fa-credit-card"></i>
-                    </div>
-                    <div class="card-content flex-grow-1">
-                        <h5>Payment Management</h5>
-                        <p>View and track all payment transactions</p>
-                        <span class="data-count text-payment" id="paymentValueCard">$150.50</span>
-                        <small class="text-muted">Total revenue</small>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="ManagePaymentsServlet" class="btn btn-outline-info btn-action">
-                        <i class="fas fa-cog mr-1"></i> Manage Payments
-                    </a>
-                </div>
-            </div>
-        </div>
+<%--    <div class="row">--%>
+<%--        <!-- Payment Management Card -->--%>
+<%--        <div class="col-md-4">--%>
+<%--            <div class="dashboard-card">--%>
+<%--                <div class="card-header-custom d-flex">--%>
+<%--                    <div class="icon-area bg-payment flex-shrink-0">--%>
+<%--                        <i class="icon fas fa-credit-card"></i>--%>
+<%--                    </div>--%>
+<%--                    <div class="card-content flex-grow-1">--%>
+<%--                        <h5>Payment Management</h5>--%>
+<%--                        <p>View and track all payment transactions</p>--%>
+<%--                        <span class="data-count text-payment" id="paymentValueCard">$150.50</span>--%>
+<%--                        <small class="text-muted">Total revenue</small>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div class="card-actions">--%>
+<%--                    <a href="ManagePaymentsServlet" class="btn btn-outline-info btn-action">--%>
+<%--                        <i class="fas fa-cog mr-1"></i> Manage Payments--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
 
-        <!-- Feedback Management Card -->
-        <div class="col-md-4">
-            <div class="dashboard-card">
-                <div class="card-header-custom d-flex">
-                    <div class="icon-area bg-feedback flex-shrink-0">
-                        <i class="icon fas fa-comments"></i>
-                    </div>
-                    <div class="card-content flex-grow-1">
-                        <h5>Feedback Management</h5>
-                        <p>View and manage user feedback and ratings</p>
-                        <span class="data-count text-feedback" id="feedbackCountCard">7</span>
-                        <small class="text-muted">Total feedback</small>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="AdminViewFeedbacksServlet" class="btn btn-outline-secondary btn-action">
-                        <i class="fas fa-cog mr-1"></i> Manage Feedback
-                    </a>
-                </div>
-            </div>
-        </div>
+<%--        <!-- Feedback Management Card -->--%>
+<%--        <div class="col-md-4">--%>
+<%--            <div class="dashboard-card">--%>
+<%--                <div class="card-header-custom d-flex">--%>
+<%--                    <div class="icon-area bg-feedback flex-shrink-0">--%>
+<%--                        <i class="icon fas fa-comments"></i>--%>
+<%--                    </div>--%>
+<%--                    <div class="card-content flex-grow-1">--%>
+<%--                        <h5>Feedback Management</h5>--%>
+<%--                        <p>View and manage user feedback and ratings</p>--%>
+<%--                        <span class="data-count text-feedback" id="feedbackCountCard">7</span>--%>
+<%--                        <small class="text-muted">Total feedback</small>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div class="card-actions">--%>
+<%--                    <a href="AdminViewFeedbacksServlet" class="btn btn-outline-secondary btn-action">--%>
+<%--                        <i class="fas fa-cog mr-1"></i> Manage Feedback--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
 
         <!-- Quick Stats Card -->
         <div class="col-md-4">
@@ -447,13 +447,13 @@
                         <div class="stat-label">Total Bookings</div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="stat-card">
-                        <i class="fas fa-dollar-sign fa-2x mb-3 stat-revenue"></i>
-                        <div class="stat-value stat-revenue" id="paymentValue"></div>
-                        <div class="stat-label">Total Revenue</div>
-                    </div>
-                </div>
+<%--                <div class="col-md-3">--%>
+<%--                    <div class="stat-card">--%>
+<%--                        <i class="fas fa-dollar-sign fa-2x mb-3 stat-revenue"></i>--%>
+<%--                        <div class="stat-value stat-revenue" id="paymentValue"></div>--%>
+<%--                        <div class="stat-label">Total Revenue</div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
             </div>
 
             <div class="alert alert-info mt-3">
