@@ -2,6 +2,8 @@ package com.example.eventticketbookingsystem.boundary;
 
 import com.example.eventticketbookingsystem.controller.FeedbackController;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +13,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AdminDeleteFeedbackServlet {
+/**
+ * Servlet for administrators to delete user feedback
+ * Current Date and Time (UTC): 2025-05-21 09:04:08
+ * Current User's Login: IT24100725
+ */
+@WebServlet("/AdminDeleteFeedbackServlet")
+public class AdminDeleteFeedbackServlet extends HttpServlet {
+
     private FeedbackController feedbackController = new FeedbackController();
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
