@@ -244,7 +244,7 @@
 <!-- Updated Footer with timestamp and user login -->
 <footer>
     <div class="container">
-        <p class="mb-0">Event Ticket Booking System &copy; 2025 hhhhh </p>
+        <p class="mb-0">Event Ticket Booking System &copy; 2025 </p>
     </div>
 </footer>
 
