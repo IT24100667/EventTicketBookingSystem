@@ -3,7 +3,10 @@ package com.example.eventticketbookingsystem.boundary;
 import com.example.eventticketbookingsystem.controller.FeedbackController;
 import com.example.eventticketbookingsystem.model.Feedback;
 import com.example.eventticketbookingsystem.model.User;
+
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class AddFeedbackServlet {
+/**
+ * Servlet to handle adding feedback
+ * Current Date and Time (UTC): 2025-05-21 09:00:53
+ * Current User's Login: IT24100725
+ */
+@WebServlet("/AddFeedbackServlet")
+public class AddFeedbackServlet extends HttpServlet {
 
     private FeedbackController feedbackController = new FeedbackController();
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -57,6 +66,7 @@ public class AddFeedbackServlet {
                 return;
             }
         }
+
         // Get user's previous feedbacks
         List<Feedback> userFeedbacks = feedbackController.getFeedbacksByUserId(user.getId());
 
@@ -116,7 +126,7 @@ public class AddFeedbackServlet {
                 }
             }
 
-            // Redirect to view feedbacks
+            // Redirect to view all feedback
             request.getRequestDispatcher("ViewFeedbacksServlet").forward(request, response);
 
         } catch (NumberFormatException e) {
