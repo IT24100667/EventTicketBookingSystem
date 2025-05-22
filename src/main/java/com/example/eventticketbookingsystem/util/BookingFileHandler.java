@@ -47,7 +47,7 @@ import java.util.List;
             List<Booking> bookings = new ArrayList<>();
 
             // Create directory if it doesn't exist
-            File directory = new File("C:\\Users\\oshan\\Desktop\\Data 2");
+            File directory = new File(FILE_PATH);
             if (!directory.exists()) {
                 directory.mkdirs();
             }

@@ -47,7 +47,7 @@ public class PaymentFileHandler {
         File file = new File(FILE_PATH);
 
 
-        File directory = new File("C:\\Users\\oshan\\Desktop\\Data 2");
+        File directory = new File(FILE_PATH);
         if (!directory.exists()) {
             directory.mkdirs();
         }
