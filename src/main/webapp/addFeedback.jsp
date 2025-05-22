@@ -1,5 +1,3 @@
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.eventticketbookingsystem.model.User" %>
 <%@ page import="com.example.eventticketbookingsystem.model.Feedback" %>
@@ -225,7 +223,7 @@
 </div>
 
 <footer class="bg-dark text-white text-center py-3 mt-5">
-  <p class="mb-0">Event Ticket Booking System &copy; 2025 | Current Date: 2025-05-21 09:09:52 | User: IT24100725</p>
+  <p class="mb-0">Event Ticket Booking System &copy; 2025</p>
 </footer>
 
 <script>
@@ -255,7 +253,4 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
-
-
