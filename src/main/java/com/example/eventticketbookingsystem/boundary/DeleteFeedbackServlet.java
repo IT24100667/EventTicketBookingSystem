@@ -63,4 +63,3 @@ public class DeleteFeedbackServlet {
         doGet(request, response);
     }
 }
-
