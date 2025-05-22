@@ -1,5 +1,6 @@
 package com.example.eventticketbookingsystem.controller;
 
+import com.example.eventticketbookingsystem.algorithm.MergeSort;
 import com.example.eventticketbookingsystem.model.Concert;
 import com.example.eventticketbookingsystem.model.Event;
 import com.example.eventticketbookingsystem.model.OtherEvent;
@@ -230,6 +231,11 @@ public class EventController {
 
     // methods related to sort will be posted below this
 
+    // Get events sorted by date
+    public List<Event> getEventsSortedByDate() {
+        List<Event> allEvents = getAllEvents();
+        return MergeSort.sortByDate(allEvents);
+    }
 
 
 
