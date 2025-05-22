@@ -72,4 +72,5 @@ public class ViewBookingsServlet extends HttpServlet {
         request.setAttribute("paymentMap", paymentMap); // NEW: Added payment map
         request.getRequestDispatcher("userBookings.jsp").forward(request, response);
     }
+
 }
