@@ -216,7 +216,7 @@
                             <% } else if (payment.getStatus().equals(Payment.STATUS_PENDING)) { %>
                             <span class="badge badge-warning">Pending</span>
                             <% } else { %>
-                            <span class="badge badge-danger">Failed</span>
+                            <span class="badge badge-danger">Pending</span>
                             <% } %>
                         </td>
                         <td><%= dateFormat.format(payment.getPaymentDate()) %></td>
@@ -244,7 +244,7 @@
 <!-- Updated Footer with timestamp and user login -->
 <footer>
     <div class="container">
-        <p class="mb-0">Event Ticket Booking System &copy; 2025 </p>
+        <p class="mb-0">Event Ticket Booking System &copy; 2025 hhhhh </p>
     </div>
 </footer>
 
