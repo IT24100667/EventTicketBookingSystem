@@ -13,7 +13,10 @@ import java.util.List;
 
     public class BookingFileHandler {
 
-        private static final String FILE_PATH = "C:\\Users\\Praneeth Nawarathne\\Desktop\\SaveFiles\\bookings.txt";
+        private static final String DATA_DIRECTORY = System.getProperty("user.home") +
+                File.separator + "eventbookingsystem" + File.separator + "data";
+
+        private static final String FILE_PATH = DATA_DIRECTORY + File.separator + "bookings.txt";
         private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
          // Save a booking to the file
