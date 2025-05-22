@@ -8,6 +8,23 @@ import java.util.List;
 public class MergeSort {
 
 
+    public static List<Event> sortByDate(List<Event> events){
+
+        // i create a list copy to avoid making changes to our original list
+        List<Event> sortedList = new ArrayList<>(events);
+
+        // if only 1 element or less there is no need to sort
+        if (sortedList.size() <= 1) {
+            return sortedList;  // Already sorted
+        }
+
+        // call merge sort for date
+        mergeSortByDate(sortedList, 0, sortedList.size()-1);  // in the pseudo code i used 1 as starting index but here it is 0
+
+        return sortedList;
+    }
+
+
     private static void mergeByDate(List<Event> events, int start, int middle, int end){
         // first calculate for n1 and n2
         // n1 = q - p + 1
@@ -88,6 +105,8 @@ public class MergeSort {
             mergeByDate(events, start, middle, end); // A, p, q, r
 
         }
+
+
 
 
     }
