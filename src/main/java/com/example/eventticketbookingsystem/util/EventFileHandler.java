@@ -14,7 +14,29 @@ import java.util.List;
 
 public class EventFileHandler {
 
-    private static final String FILE_PATH = "C:\\Users\\Vivobook\\eventbookingsystem\\data\\events.txt";
+    // added a specific location for data files
+    private static final String DATA_DIRECTORY = System.getProperty("user.home") +
+            File.separator + "eventbookingsystem" + File.separator + "data";
+
+    private static final String FILE_PATH = DATA_DIRECTORY + File.separator + "events.txt";
+
+    // Constructor to ensure the data directory exists
+    public EventFileHandler() {
+        initializeDataDirectory();
+    }
+
+    // Make sure the data directory exists
+    private void initializeDataDirectory() {
+        File directory = new File(DATA_DIRECTORY);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs();
+            if (created) {
+                System.out.println("Created data directory at: " + DATA_DIRECTORY);
+            } else {
+                System.out.println("Failed to create data directory at: " + DATA_DIRECTORY);
+            }
+        }
+    }
 
     // data stored in file - type, id, name, description, venue, date, price, capacity, bookedSeats, ....(varies based on type)
 
@@ -24,8 +46,11 @@ public class EventFileHandler {
 
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))){
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
             String line;
+
             while ((line = reader.readLine()) != null){
 
                 //  The split() method in Java interprets "|" as "or" operator.  \\| escapes it to make it an  "|" character.
@@ -187,24 +212,64 @@ public class EventFileHandler {
     }
 
     // this is the method used to save Events
-    public boolean saveEvents(Event event){
+    public boolean saveEvent(Event event){
 
         List<Event> events = getAllEvents();
         boolean exists = false;
 
         for (int i = 0; i < events.size(); i++) {
             if (events.get(i).getId().equals(event.getId())) {
+                events.set(i, event); // replace event -> useful for updates
                 exists = true;
                 break;
-            } else if (!exists) {
-                events.add(event);
             }
 
+        }
+
+        if (!exists) {
+            events.add(event); // Add only if not found
         }
 
         //save events to file
         return saveAllEvents(events);
 
     }
+
+    public boolean updateEvent(Event updatedEvent) {
+        if (updatedEvent == null) {
+            return false;
+        }
+        return saveEvent(updatedEvent);  // saveEvent handles updates too
+    }
+
+
+    public boolean deleteEvent(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            return false;
+        }
+
+        List<Event> events = getAllEvents();
+        List<Event> updatedEvents = new ArrayList<>();
+        boolean removed = false;
+
+        // Copy all events except the one to be removed
+        for (Event event : events) {
+            if (! event.getId().equals(id)) {
+                updatedEvents.add(event);
+            } else {
+                removed = true;
+            }
+        }
+
+        if (removed) {
+            return saveAllEvents(updatedEvents);
+        }
+
+        return false; // Event not found
+    }
+
+
+
+
 
 }
