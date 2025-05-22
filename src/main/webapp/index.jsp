@@ -562,7 +562,7 @@
             </div>
         </div>
         <div class="text-center mt-3 pt-3 border-top border-secondary">
-            <p class="mb-0">Event Ticket Booking System &copy; <%= new java.util.Date().getYear() + 1900 %> | Developed by IT24100667</p>
+            <p class="mb-0">Event Ticket Booking System &copy; <%= new java.util.Date().getYear() + 1900 %> </p>
             <p class="mb-0"><small>Current Date and Time (UTC): <%= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()) %></small></p>
         </div>
     </div>
