@@ -66,5 +66,31 @@ public class MergeSort {
         }
     }
 
+    // followed exact method in Slide
+    private static void mergeSortByDate(List<Event> events, int start, int end){
+        // used start and end instead of p and r to avoid confusions
+        if (start < end) {
+            int middle = (start + end) / 2;
+
+
+            // call same method recursively
+            // sort the first half
+            mergeSortByDate(events, start, middle);
+
+            // call this again for  2nd half as well
+            mergeSortByDate(events, middle+1, end);
+
+            // now first and second halves are sorted
+
+
+            // now call the merge method  ->  (will be implemented in future ignore any errors for now )
+
+            mergeByDate(events, start, middle, end); // A, p, q, r
+
+        }
+
+
+    }
+
 
 }
