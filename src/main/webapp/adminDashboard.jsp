@@ -429,28 +429,28 @@
                 <div class="col-md-3">
                     <div class="stat-card">
                         <i class="fas fa-users fa-2x mb-3 stat-users"></i>
-                        <div class="stat-value stat-users" id="userCount">2</div>
+                        <div class="stat-value stat-users" id="userCount"></div>
                         <div class="stat-label">Registered Users</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
                         <i class="fas fa-calendar-alt fa-2x mb-3 stat-events"></i>
-                        <div class="stat-value stat-events" id="eventCount">3</div>
+                        <div class="stat-value stat-events" id="eventCount"></div>
                         <div class="stat-label">Total Events</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
                         <i class="fas fa-ticket-alt fa-2x mb-3 stat-bookings"></i>
-                        <div class="stat-value stat-bookings" id="bookingCount">5</div>
+                        <div class="stat-value stat-bookings" id="bookingCount"></div>
                         <div class="stat-label">Total Bookings</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
                         <i class="fas fa-dollar-sign fa-2x mb-3 stat-revenue"></i>
-                        <div class="stat-value stat-revenue" id="paymentValue">$150.50</div>
+                        <div class="stat-value stat-revenue" id="paymentValue"></div>
                         <div class="stat-label">Total Revenue</div>
                     </div>
                 </div>
