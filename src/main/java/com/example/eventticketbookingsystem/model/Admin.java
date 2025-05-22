@@ -9,7 +9,8 @@ public class Admin extends User {
         setAdmin(true); // Set as admin
     }
 
+    //for only admins,
     public boolean canManageSystem() {
-        return true;
+        return true;  //admins have system management permission
     }
 }
