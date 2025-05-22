@@ -5,10 +5,10 @@ import com.example.eventticketbookingsystem.model.Admin;
 import com.example.eventticketbookingsystem.model.Person;
 import com.example.eventticketbookingsystem.model.User;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.*;//to read and write the files
+import java.util.ArrayList; //ArrayList and list for storage
 import java.util.List;
-import java.util.UUID;
+import java.util.UUID;//to create unique ID's
 
 public class UserFileHandler {
 
@@ -22,12 +22,14 @@ public class UserFileHandler {
             File.separator + "eventbookingsystem" + File.separator + "data";
 
     private static final String USER_FILE = DATA_DIRECTORY + File.separator + "users.txt";
+    //a list that stores both users and admins
     private static List<Person> people = new ArrayList<>();
 
-
+    //runs once when class is loaded
     static {
         // Create directory if it doesn't exist
         File dataDir = new File(DATA_DIRECTORY);
+        //if data directory is not created,creates it
         if (!dataDir.exists()) {
             boolean created = dataDir.mkdirs();
             System.out.println("Created data directory: " + dataDir.getAbsolutePath() +
@@ -35,8 +37,9 @@ public class UserFileHandler {
         } else {
             System.out.println("Using existing data directory: " + dataDir.getAbsolutePath());
         }
-
+        //show the file path
         System.out.println("User file will be stored at: " + new File(USER_FILE).getAbsolutePath());
+        //load data from file
         loadPeople();
     }
 
@@ -48,11 +51,13 @@ public class UserFileHandler {
         if (getUserByUsername(username) != null) {
             return false;
         }
-
+        //create a new user with unique ID
         String id = UUID.randomUUID().toString();
         User user = new User(id, username, password, fullName, email, phoneNumber);
 
+        //adds users to list
         people.add(user);
+        //save to the user into file
         savePeople();
         return true;
     }
@@ -62,7 +67,7 @@ public class UserFileHandler {
     public static Person getPersonById(String id) {
         for (Person person : people) {
             if (person.getId().equals(id)) {
-                return person;
+                return person; //user or admin by ID
             }
         }
         return null;
@@ -72,6 +77,7 @@ public class UserFileHandler {
     // Get user by ID (returns only regular User objects, not Admin)
     public static User getUserById(String id) {
         Person person = getPersonById(id);
+        //ensures it's a regular user not an admin
         if (person instanceof User && !(person instanceof Admin)) {
             return (User) person;
         }
@@ -80,20 +86,23 @@ public class UserFileHandler {
 
 
     //Load people from file
-
     private static void loadPeople() {
+        //prevents duplicate entries if load people() called multiple times
         people.clear();
 
-        try {
+        //exception handling
+        try { //if anything goes to wrong inside this block kt jumps to the catch
             File file = new File(USER_FILE);
+            //if the file doesn't exist,stop
             if (!file.exists()) {
                 return;
             }
-
+            //adds the ability to read the file
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
-
+            //read one line at a time until end of the file
             while ((line = reader.readLine()) != null) {
+                //splits the line into 7 parts(id,username,pswrd,name,email,numb,isAdmin)
                 String[] parts = line.split(",");
                 if (parts.length >= 7) {
                     String id = parts[0];
@@ -104,35 +113,50 @@ public class UserFileHandler {
                     String phoneNumber = parts[5];
                     boolean isAdmin = Boolean.parseBoolean(parts[6]);
 
+                    //if Admin create admin and add to people list
                     if (isAdmin) {
                         people.add(new Admin(id, username, password, fullName, email, phoneNumber));
-                    } else {
+                    }
+                    //if not an admin create user and add it to people list
+                    else {
                         people.add(new User(id, username, password, fullName, email, phoneNumber));
                     }
                 }
             }
+            //close the file when reading is finished
             reader.close();
 
+            //display how many people were loaded successfully
             System.out.println("Loaded " + people.size() + " people from file");
 
-        } catch (IOException e) {
+        }
+        //run only if something went wrong inside the try block, the error is caught in the variable e
+        catch (IOException e) {
             System.out.println("Error loading people: " + e.getMessage());
         }
+
+        //IOException e ---> stores the details about what error occurred
+
+        //if this users.txt file is missing/locked,with this try catch block it prints the error otherwise it doesn't
+
     }
 
 
     // Get user by username (returns either User or Admin)
-
-    public static User getUserByUsername(String username) {
+    public static User getUserByUsername(String username) { //static methods can be used without creating object
+        //this loop through all users and admins in people list,each one is temporarily called person
         for (Person person : people) {
+            //check if the person is user
             if (person instanceof User) {
+                //since we know person is now user,convert person into user
                 User user = (User) person;
-                if (user.getUsername().equals(username)) {
-                    return user;
+                //check if the user's username is matches with one we're looking for
+                if (user.getUsername().equals(username)) { //equals() compare to actual text (not memory)
+                    return user;//if match
                 }
             }
         }
-        return null;
+        return null;//if not match with the given username
     }
 
     public static Admin getAdminByUsername(String username) {
@@ -152,8 +176,10 @@ public class UserFileHandler {
 
     //Get all regular users
     public static List<User> getAllUsers() {
+        //list that only creates users
         List<User> users = new ArrayList<>();
         for (Person person : people) {
+            //if the person is only user add them to the list
             if (person instanceof User && !(person instanceof Admin)) {
                 users.add((User) person);
             }
@@ -165,15 +191,19 @@ public class UserFileHandler {
     // Update user information (works for both User and Admin)
     public static boolean updateUser(String id, String username, String password,
                                      String fullName, String email, String phoneNumber) {
+        //get the person(users and admins) from list using the given ID
         Person personToUpdate = getPersonById(id);
+           //no person                 //person is not an admin/user
         if (personToUpdate == null || !(personToUpdate instanceof User)) {
             return false;
         }
 
+        //person to a user/admin
         User user = (User) personToUpdate;
 
-        // Check if new username conflicts with another user
+        // Check if new username already exists with the same username
         User existingUser = getUserByUsername(username);
+        //user with the same username but different ID
         if (existingUser != null && !existingUser.getId().equals(id)) {
             return false; // Username taken by another user
         }
@@ -192,22 +222,29 @@ public class UserFileHandler {
 
     //Delete a person by ID (works for both User and Admin)
     public static boolean deletePerson(String id) {
+        //goes through each person/user
         for (int i = 0; i < people.size(); i++) {
+            //check if the current person's ID matches with the given ID
             if (people.get(i).getId().equals(id)) {
+                //removes the people at index i
                 people.remove(i);
+                //after removing, saves the updated list
                 savePeople();
                 return true;
             }
         }
-        return false;
+        return false;//no match was found
     }
 
 
     //Authenticate user (works for both User and Admin)
     public static User authenticateUser(String username, String password) {
         for (Person person : people) {
+            //check if the person is a user
             if (person instanceof User) {
+                //cast person into user
                 User user = (User) person;
+                //ensures that we're only authenticating regular users
                 if (user.getUsername().equals(username) &&
                         user.getPassword().equals(password) &&
                         !(person instanceof Admin)) {
@@ -215,7 +252,7 @@ public class UserFileHandler {
                 }
             }
         }
-        return null;
+        return null;//authentication fail
     }
 
 

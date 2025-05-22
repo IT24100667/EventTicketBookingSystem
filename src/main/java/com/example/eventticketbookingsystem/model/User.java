@@ -9,8 +9,6 @@ package com.example.eventticketbookingsystem.model;
 
 
         //Constructor for creating a new user
-
-
         public User(String id, String username, String password, String fullName, String email, String phoneNumber) {
             super(id, fullName, email, phoneNumber); // Call parent constructor
             this.username = username;
