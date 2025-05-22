@@ -1,5 +1,6 @@
 package com.example.eventticketbookingsystem.controller;
 
+//import user,user file handler and List
 import com.example.eventticketbookingsystem.model.User;
 import com.example.eventticketbookingsystem.util.UserFileHandler;
 
@@ -11,7 +12,6 @@ public class UserController {
 
      // Register a new regular user
      // @return true if registration successful, false if username already exists
-
     public boolean registerUser(String username, String password, String fullName,
                                 String email, String phoneNumber) {
         // Validate input data
@@ -23,6 +23,7 @@ public class UserController {
         }
 
         // Basic email validation
+                        //user@example            //com/org
         if (!email.contains("@") || !email.contains(".")) {
             return false;
         }
@@ -33,7 +34,6 @@ public class UserController {
 
 
     //Update existing user information
-
     public boolean updateUser(String id, String username, String password,
                               String fullName, String email, String phoneNumber) {
         // Validate input data
@@ -77,7 +77,6 @@ public class UserController {
 
 
     //Get user by ID
-
     public User getUserById(String id) {
         if (id == null || id.trim().isEmpty()) {
             return null;
@@ -88,7 +87,7 @@ public class UserController {
     }
 
 
-
+    //get user by username
     public User getUserByUsername(String username) {
         if (username == null || username.trim().isEmpty()) {
             return null;
