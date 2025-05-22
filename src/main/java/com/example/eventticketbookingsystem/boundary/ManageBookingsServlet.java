@@ -308,4 +308,5 @@ public class ManageBookingsServlet extends HttpServlet {
 
         listBookings(request, response);
     }
+
 }
