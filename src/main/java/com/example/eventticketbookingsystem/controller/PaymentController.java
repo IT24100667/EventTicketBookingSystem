@@ -54,16 +54,16 @@ public class PaymentController implements IPaymentController {
 
         // Save payment
         boolean saved = fileHandler.savePayment(payment);
-        return saved ? payment.getId() : null;
+        return saved ? payment.getId() : null; //return p id if it success
     }
 
 
-    @Override
+    @Override //from ipc
     public String createPayment(String bookingId, double amount, String paymentMethod, String status, Date paymentDate) {
         // Check for existing payment
         Payment existingPayment = checkExistingPayment(bookingId);
         if (existingPayment != null) {
-            return existingPayment.getId();
+            return existingPayment.getId();  //if booking not null get p id
         }
 
         // Create a new payment with the specified details
@@ -71,29 +71,30 @@ public class PaymentController implements IPaymentController {
         payment.setStatus(status);
         payment.setPaymentDate(paymentDate);
 
-        // Ensure booking is in queue
+        // Makes sure the booking is properly queued
         ensureBookingInQueue(bookingId);
 
         // Save payment
         boolean saved = fileHandler.savePayment(payment);
-        return saved ? payment.getId() : null;
+        return saved ? payment.getId() : null; //return id
     }
 
 
-    @Override
+    @Override //ipc
     public boolean updatePayment(Payment payment) {
         return fileHandler.savePayment(payment);
     }
 
 
-    @Override
+    @Override //ipc
     public boolean updatePaymentStatusForBooking(String bookingId, String bookingStatus) {
         Payment payment = getPaymentByBookingId(bookingId);
         if (payment == null) {
             return false;
         }
 
-        // Update payment status based on booking status
+        // If booking is confirmed, payment becomes "COMPLETED"
+        //If booking is cancelled, payment becomes "CANCELLED" in q
         if (Booking.STATUS_CONFIRMED.equals(bookingStatus)) {
             payment.setStatus("COMPLETED");
         } else if (Booking.STATUS_CANCELLED.equals(bookingStatus)) {
@@ -103,7 +104,8 @@ public class PaymentController implements IPaymentController {
         return fileHandler.savePayment(payment);
     }
 
-
+    //Finds all payments linked to cancelled bookings
+    //Makes sure their status is set to "CANCELLED"
     public void updateAllCancelledPayments() {
         List<Payment> allPayments = getAllPayments();
         List<Booking> cancelledBookings = bookingController.getBookingsByStatus(Booking.STATUS_CANCELLED);
