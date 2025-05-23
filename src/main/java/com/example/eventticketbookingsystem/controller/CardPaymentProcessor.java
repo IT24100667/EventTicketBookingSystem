@@ -15,7 +15,7 @@ public class CardPaymentProcessor extends AbstractPaymentProcessor {
     public boolean processPayment(Payment payment, Booking booking) {
         // Card-specific validation could go here
 
-        // Simulate card processing (in real system, would call payment gateway)
+        // Simulate card processing
         boolean success = simulateCardPaymentProcessing();
 
         // Set appropriate status
