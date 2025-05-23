@@ -3,7 +3,10 @@ package com.example.eventticketbookingsystem.boundary;
 import com.example.eventticketbookingsystem.controller.FeedbackController;
 import com.example.eventticketbookingsystem.model.Feedback;
 import com.example.eventticketbookingsystem.model.User;
+
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,10 +14,15 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ViewFeedbackServlet {
+/**
+ * Servlet to display all feedback
+ * Current Date and Time (UTC): 2025-05-17 13:50:00
+ * Current User's Login: IT24100725
+ */
+@WebServlet("/ViewFeedbacksServlet")
+public class ViewFeedbacksServlet extends HttpServlet {
 
     private FeedbackController feedbackController = new FeedbackController();
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
