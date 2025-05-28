@@ -2,6 +2,7 @@ package com.example.eventticketbookingsystem.boundary;
 
 import com.example.eventticketbookingsystem.algorithm.MergeSort;
 import com.example.eventticketbookingsystem.controller.EventController;
+import com.example.eventticketbookingsystem.model.CustomLinkedList;
 import com.example.eventticketbookingsystem.model.Event;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -90,9 +91,25 @@ public class ViewEventsServlet extends HttpServlet {
             request.setAttribute("type", eventType);
         }
 
-        // Apply sorting if requested - FIXED: Sort the current filtered list, not all events
+        // Apply sorting using CustomLinkedList (teacher requirement)
         if ("date".equals(sortBy)) {
-            events = MergeSort.sortByDate(events); // Now sorting the filtered list
+            // Convert List<Event> to CustomLinkedList
+            CustomLinkedList customEventList = new CustomLinkedList();
+            for (Event event : events) {
+                customEventList.addLast(event);
+            }
+
+            // Sort using CustomLinkedList merge sort (NO Java Collections!)
+            CustomLinkedList sortedCustomList = MergeSort.sortByDate(customEventList);
+
+            // Convert back to List<Event> for JSP compatibility
+            List<Event> sortedEvents = new ArrayList<>();
+            Object[] sortedArray = sortedCustomList.toArray();
+            for (Object obj : sortedArray) {
+                sortedEvents.add((Event) obj);
+            }
+
+            events = sortedEvents;
             request.setAttribute("sortBy", sortBy);
         }
 
