@@ -44,8 +44,9 @@ public class CustomLinkedList {
 
 
      // Add item to end of list (like addLast in LinkedList)
-
+     //because we used queue for booking  sor there is using last to insert items
     public void addLast(Object item) {
+
         Link newLink = new Link(item);
 
         if (isEmpty()) {
@@ -61,7 +62,6 @@ public class CustomLinkedList {
 
 
      // Add item to beginning of list (like addFirst in LinkedList)
-
     public void addFirst(Object item) {
         Link newLink = new Link(item);
 
@@ -78,13 +78,12 @@ public class CustomLinkedList {
 
 
      // Remove and return first item
-
     public Object removeFirst() {
         if (isEmpty()) {
             return null;
         }
 
-        Object temp = first.data;
+        Object temp = first.data; //first.data= for returning just a value not a node
 
         if (first == last) {
             // Only one item in the list
@@ -100,7 +99,6 @@ public class CustomLinkedList {
 
 
      // Get first item without removing
-
     public Object getFirst() {
         if (isEmpty()) {
             return null;
@@ -111,14 +109,12 @@ public class CustomLinkedList {
 
 
      // Get the number of items in the list
-
     public int size() {
         return size;
     }
 
 
      // Remove all items from the list
-
     public void clear() {
         first = null;
         last = null;
@@ -127,8 +123,7 @@ public class CustomLinkedList {
 
 
      // Check if an item is in the list
-
-    public boolean contains(Object item) {
+     public boolean contains(Object item){
         Link current = first;
 
         while (current != null) {
@@ -143,7 +138,6 @@ public class CustomLinkedList {
 
 
      // Remove a specific item from the list
-
     public boolean remove(Object item) {
         if (isEmpty()) {
             return false;
@@ -171,11 +165,11 @@ public class CustomLinkedList {
 
         // If it's the last item
         if (current == last) {
-            last = previous;
+            last = previous; //after deleting last node last is now the previous node
         }
 
         // Remove the item
-        previous.next = current.next;
+        previous.next = current.next; //previous node.next = null
         size--;
 
         return true;
@@ -198,7 +192,6 @@ public class CustomLinkedList {
 
 
      // Display all items in the list (for debugging)
-
     public void displayList() {
         Link current = first;
 
@@ -211,7 +204,6 @@ public class CustomLinkedList {
     }
 
      // Get all items as an array (for iteration)
-
     public Object[] toArray() {
         Object[] array = new Object[size];
         Link current = first;
