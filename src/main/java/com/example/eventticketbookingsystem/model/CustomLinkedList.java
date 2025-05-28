@@ -216,4 +216,33 @@ public class CustomLinkedList {
 
         return array;
     }
+
+    // Get element at specific index (needed for merge sort)
+    public Object get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        Link current = first;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.data;
+    }
+
+    // Set element at specific index --> needed for merge sort in algo package
+    public void set(int index, Object item) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        Link current = first;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        current.data = item;
+    }
+
 }

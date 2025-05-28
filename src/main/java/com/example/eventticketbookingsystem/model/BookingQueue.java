@@ -55,11 +55,7 @@ public class BookingQueue {
     }
 
 
-     // Clear all bookings from the queue
 
-    public void clear() {
-        queue.clear();
-    }
 
     // Check if a booking with the given ID exists in the queue
 
