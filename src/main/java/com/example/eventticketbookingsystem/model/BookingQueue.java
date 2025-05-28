@@ -67,14 +67,17 @@ public class BookingQueue {
         // Get all bookings as an array to iterate through them
         Object[] bookings = queue.toArray();
 
+        //object obj=each item in array temporarily stored in obj each loop cycle
         for (Object obj : bookings) {
+            //(Booking) converts object into Booking type
             Booking booking = (Booking) obj;
+            //checks if the ID of the current booking matches the booking ID you're looking for
             if (booking.getId().equals(bookingId)) {
                 return true;
             }
         }
 
-        return false;
+        return false;//dis-matched ID of the booking
     }
 
      // Move a booking to the front of the queue (priority processing)
@@ -82,14 +85,20 @@ public class BookingQueue {
 
     public boolean prioritize(String bookingId) {
         // Find the booking
+        //create a variable to store the booking that you want to move
         Booking bookingToMove = null;
+        //queue into array
         Object[] bookings = queue.toArray();
 
+        //loop through bookings in array
         for (Object obj : bookings) {
+            //convert object into Booking , so you can use Booking methods
             Booking booking = (Booking) obj;
             if (booking.getId().equals(bookingId)) {
+                //if the ID of booking that you're looking for is matches with the current ID
+                //store the booking in bookingToMove
                 bookingToMove = booking;
-                break;
+                break;//stops loop bcz you found the ID of booking that you want
             }
         }
 
@@ -97,10 +106,10 @@ public class BookingQueue {
         if (bookingToMove != null) {
             queue.remove(bookingToMove);
             queue.addFirst(bookingToMove);
-            return true;
+            return true; //show that it was prioritized
         }
 
-        return false;
+        return false;//if the booking was not found
     }
 
      // Get all bookings in the queue (for admin view)
